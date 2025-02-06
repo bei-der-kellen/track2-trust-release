@@ -1,64 +1,54 @@
-# Hackathon GenAI for Public Good 🤖  
+# PDF Sensitivity Checker
 
-📙 **Retrouvez le Guide du participant en cliquant** [ici](https://alliance.numerique.gouv.fr/hackathon/participant-guide-fr/)  
+A Streamlit application that checks PDF documents for sensitive information according to GDPR and German Informationsfreiheitsgesetz (IFG) regulations using Azure OpenAI or Albert AI (France).
 
-## 👩‍💻 Comment participer ?  
+## Features
 
-Pour participer au Hackathon, vous devez créer un dépôt public (vous pouvez par exemple partir d'un fork de ce dépôt).  
+- Upload multiple PDF documents
+- Analyze documents for sensitive information using Azure OpenAI or Albert AI
+- Identify sensitive content based on GDPR and IFG criteria
 
-Votre dépôt servira pour l'évaluation de votre projet à l'issue du Hackathon !  
+- Review and approve/dismiss detected sensitive sections
+- Generate redacted PDFs with approved sensitive content blackened out
+- Download redacted documents
 
-Bon courage 🔥 !  
+## Setup
 
----
+1. Create a `.env` file with your Azure OpenAI and Albert AI credentials:
+   ```
+   AZURE_OPENAI_KEY=your_key_here
+   AZURE_OPENAI_ENDPOINT=your_endpoint_here
+   ALBERT_API_KEY=your_key_here
+   ALBERT_ENDPOINT=your_endpoint_here
+   ```
 
-## 🚀 Rendu attendu  
+2. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Run the Streamlit application:
+   ```
+   streamlit run Home.py
+   ```
 
-### 🎯 Sélectionnez votre Track  
+## Additional Information
 
-Votre projet doit s'inscrire dans l'un des **deux tracks** suivants :  
+This project is designed to tackle a prominent challenge in the public sector by leveraging state-of-the-art AI to detect sensitive information in PDFs. Below is an explanation of how the application delivers value based on key evaluation criteria – integrating additional benefits such as boosting confidence in data-driven decision-making through open data practices and its applicability across various governmental contexts:
 
-#### 🧠 Track 1 : Algorithmes à Forte Valeur Ajoutée  
-Développez des algorithmes avancés pour relever des défis technologiques fondamentaux.  
+### English
+**Relevance:** This app directly addresses a critical need in public service institutions by automating the detection of sensitive data in compliance with GDPR and IFG regulations. It enhances trust in decision-making by promoting open data practices across public institutions.
+**Impact:** By harnessing robust AI engines such as Azure OpenAI (and alternatives), the application enables organizations to quantitatively assess risks, leading to measurable improvements in data protection. This not only improves data security but also supports transparent, evidence-based decision-making in government operations.
+**Feasibility:** Developed as an MVP using Streamlit and a modular design, the solution incorporates established APIs and clear workflows, ensuring a realistic and deployable implementation. Its straightforward design also facilitates the integration of open data practices into governmental workflows.
+**Scalability:** With built-in multi-language support and a modular architecture, the app can be effortlessly extended and adapted as a digital commons for broader public sector applications. Its versatile design ensures seamless scalability across various governmental contexts, further advancing open data initiatives.
 
-Exemples :  
-- 🎙 **Transcription vocale** : Amélioration du Speech-to-Text pour les langues sous-représentées.  
-- 🛰 **Analyse géospatiale** : IA pour la planification urbaine et la gestion des crises.  
-- 📄 **Numérisation de documents** : Amélioration de l'OCR pour les administrations.
+### Français
+**Pertinence :** Cette application répond à un besoin crucial dans le secteur public en automatisant la détection des données sensibles conformément aux réglementations RGPD et la loi sur l'accès à l'information. Elle renforce la confiance dans la prise de décision en promouvant les pratiques d'ouverture des données au sein des institutions publiques.
+**Impact :** En exploitant des moteurs d'IA robustes tels que Azure OpenAI, l'application permet aux organisations d'évaluer les risques de manière quantitative, menant à des améliorations mesurables en matière de protection des données. Cela améliore non seulement la sécurité des données, mais soutient également une prise de décision transparente et fondée sur les données.
+**Faisabilité :** Conçue comme un MVP en utilisant Streamlit et des principes de conception modulaires, la solution intègre des API éprouvées et des processus clairs, garantissant une mise en œuvre réaliste et déployable. Sa conception simple facilite l'intégration des pratiques d'open data dans les processus gouvernementaux.
+**Scalabilité :** Grâce à son support multilingue intégré et à son architecture modulaire, l'application peut être facilement étendue et adaptée dans divers contextes gouvernementaux, favorisant ainsi l'intégration des données ouvertes et améliorant la transparence ainsi que l'efficacité opérationnelle.
 
-### 📝 Informations à renseigner pour l’évaluation  
-
-Merci de compléter ce README avec les éléments suivants : 
-
-##### 🏆 Critères d'évaluation  
-| Critère            | Description | Poids (%) |
-|--------------------|-------------|-----------|
-| 🎯 **Précision**  | Le modèle produit-il des résultats plus fiables et pertinents que les solutions actuelles ? | 25 |
-| ⚡ **Efficacité**  | L’utilisation des ressources informatiques est-elle optimisée sans compromettre la qualité ? | 25 |
-| 💧 **Durabilité**  | Le modèle est-il respectueux de l’environnement et économe en ressources ? | 25 |
-| 📊 **Utilisation des données** | Les données sont-elles intégrées de manière éthique et pertinente ? | 25 |
-
---- 
-
-#### 🛠 Track 2 : Cas d'Usage à Fort Impact avec des APIs  
-Exploitez des APIs comme **Albert** pour concevoir des outils concrets pour l'administration publique.  
-
-Exemples :  
-- 📝 **Automatisation administrative** : Génération automatique de documents et rapports.  
-- 🔍 **Analyse documentaire** : Recherche et résumé intelligent de textes.  
-- 🎯 **Prototypes sur mesure** : Solutions adaptées aux besoins spécifiques identifiés par les équipes.
-
-### 📝 Informations à renseigner pour l’évaluation  
-
-Merci de compléter ce README avec les éléments suivants :  
-
-##### 🏆 Critères d'évaluation  
-| Critère            | Description | Poids (%) |
-|--------------------|-------------|-----------|
-| 🎯 **Pertinence**  | La solution répond-elle à un défi clair du service public ? | 25 |
-| 📈 **Impact**      | Les résultats attendus sont-ils significatifs et mesurables ? | 25 |
-| 🔧 **Faisabilité** | L’implémentation du MVP est-elle réaliste ? | 25 |
-| 🌍 **Scalabilité** | La solution est-elle adaptable et conçue comme un bien commun numérique ? | 25 |
-
----
-
+### Deutsch
+**Relevanz:** Die Anwendung greift ein zentrales Bedürfnis im öffentlichen Dienst auf, indem sie die automatische Erkennung sensibler Daten zur Einhaltung von DSGVO und IFG ermöglicht. Sie stärkt das Vertrauen in datenbasierte Entscheidungsprozesse, indem sie offene Datenpraktiken fördert.
+**Impact:** Durch den Einsatz leistungsstarker KI-Technologien wie Azure OpenAI können Organisationen Risiken quantifizieren und messbare Verbesserungen im Datenschutz erzielen. Dies unterstützt transparente, fundierte Entscheidungsprozesse in der öffentlichen Verwaltung.
+**Machbarkeit:** Als MVP konzipiert unter Verwendung von Streamlit und modularen Designprinzipien, integriert die Lösung bewährte APIs und klare Abläufe, was eine realistische und umsetzbare Implementierung gewährleistet. Das benutzerfreundliche Design erleichtert zudem die Integration von Open-Data-Praktiken in behördliche Abläufe.
+**Skalierbarkeit:** Dank der integrierten Mehrsprachigkeit und modularen Architektur lässt sich die App problemlos erweitern und an verschiedene behördliche Kontexte anpassen, wodurch sie als digitales Gemeingut im öffentlichen Sektor dient und offene Dateninitiativen fördert.
