@@ -9,7 +9,7 @@ A Streamlit application that checks PDF documents for sensitive information acco
 ## Features
 
 - Upload multiple PDF documents
-- Analyze documents for sensitive information using Azure OpenAI or Albert AI
+- Analyze documents for sensitive information using Azure OpenAI or [Albert AI](https://github.com/etalab-ia/albert-api?tab=readme-ov-file)
 - Identify sensitive content based on GDPR and IFG criteria
 
 - Review and approve/dismiss detected sensitive sections
