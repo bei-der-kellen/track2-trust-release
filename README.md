@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/images/logo.png" alt="PDF Sensitivity Checker Logo" width="200"/>
+</p>
+
 # Trust Release
 
 A Streamlit application that checks PDF documents for sensitive information according to GDPR and German Informationsfreiheitsgesetz (IFG) regulations using Azure OpenAI or Albert AI (France).
