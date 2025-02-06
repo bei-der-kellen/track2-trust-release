@@ -4,7 +4,7 @@
 
 # Trust Release
 
-A Streamlit application that checks PDF documents for sensitive information according to GDPR and German Informationsfreiheitsgesetz (IFG) regulations using Azure OpenAI or Albert AI (France).
+A Streamlit application that checks PDF documents for sensitive information according to GDPR and German Informationsfreiheitsgesetz (IFG) or French loi sur l'accès à l'information using Azure OpenAI or Albert [Albert AI](https://github.com/etalab-ia/albert-api?tab=readme-ov-file).
 
 ## Features
 
