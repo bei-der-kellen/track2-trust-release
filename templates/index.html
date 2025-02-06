@@ -1,0 +1,48 @@
+<div class="container mt-4">
+    <div id="documentDisplay" class="border p-3" style="white-space: pre-wrap;">
+    </div>
+</div>
+
+<script>
+function displayProcessedDocument(data) {
+    const container = document.getElementById('documentDisplay');
+    let text = data.text;
+    let ranges = data.sensitive_ranges.sort((a, b) => b.start - a.start);
+    
+    // Highlight sensitive information
+    ranges.forEach(range => {
+        const before = text.substring(0, range.start);
+        const sensitive = text.substring(range.start, range.end);
+        const after = text.substring(range.end);
+        
+        text = before + 
+              `<mark class="bg-warning" title="${range.type}">${sensitive}</mark>` +
+              after;
+    });
+    
+    container.innerHTML = text;
+}
+
+document.getElementById('uploadForm').onsubmit = async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    try {
+        const response = await fetch('/process', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayProcessedDocument(data);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error processing document: ' + error);
+    }
+};
+</script> 
