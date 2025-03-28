@@ -5,8 +5,7 @@ import uuid  # <-- Added to generate new keys for file uploader
 from utils.pdf_processor import PDFProcessor
 from utils.sensitivity_checker import SensitivityChecker
 from utils.common import initialize_page
-
-
+from utils.pdf_redactor import PDFRedactor
 
 
 st.set_page_config(
@@ -137,9 +136,17 @@ def main():
         for uploaded_file in uploaded_files:
             if uploaded_file.name not in st.session_state.processed_docs:
                 try:
+                    # Check if the file is empty or too large
+                    if uploaded_file.size == 0:
+                        st.error(f"The file {uploaded_file.name} is empty. Please upload a valid PDF.")
+                        continue
+
                     with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
                         tmp_file.write(uploaded_file.getvalue())
                         tmp_path = tmp_file.name
+
+                    # Debugging: Print path to ensure it's being created
+                    st.write(f"Temporary file path for {uploaded_file.name}: {tmp_path}")
 
                     # Extract text and run sensitivity check
                     text_content = PDFProcessor.extract_text(uploaded_file)
@@ -173,9 +180,6 @@ def main():
                     doc_data = st.session_state.processed_docs[doc_name]
                     
                     # Compute overall risk assessment for this document.
-                    # Low Risk: No personal data or secret/secure data found.
-                    # Medium Risk: Personal data detected but no secret/secure data.
-                    # High Risk: Secret/secure information detected.
                     overall = "low"
                     if doc_data['sensitive_sections']:
                         for section in doc_data['sensitive_sections']:
@@ -220,17 +224,48 @@ def main():
                         cols_header[4].write(f"**{t['confirm']}**")
                         
                         # Create a table row for each sensitive section with a checkbox.
+                        confirmed_sections = []
                         for i, section in enumerate(sensitive_sections):
                             cols = st.columns([0.1, 0.15, 0.4, 0.25, 0.1])
                             cols[0].write(f"Section {i+1}")
                             cols[1].write(section['category'])
                             cols[2].write(section['text'])
                             cols[3].write(section['reason'])
-                            cols[4].checkbox(
-                                "✓",
-                                key=f"confirm_{doc_name}_{i}",
+                            
+                            confirmed = cols[4].checkbox(
+                                "✓", 
+                                key=f"confirm_{doc_name}_{i}", 
                                 value=False
                             )
+                            
+                            if confirmed:
+                                confirmed_sections.append(section)  # Add confirmed section to the list
+
+                        # After looping through the sections, check if any sections have been confirmed
+                        if confirmed_sections:
+                            # Apply redactions for confirmed sections
+                            st.write(t["applying_redactions"])
+                            
+                            # Temporärer Speicherort für das geschwärzte PDF
+                            if 'tmp_path' in locals():
+                                redacted_path = f"redacted_{uploaded_file.name}"
+                                
+                                # Schwärzung anwenden
+                                PDFRedactor.redact_sections(tmp_path, confirmed_sections, redacted_path)
+                                
+                                # Datei als Download anbieten
+                                with open(redacted_path, "rb") as file:
+                                    st.download_button(
+                                        label=t["download_redacted"],
+                                        data=file,
+                                        file_name=os.path.basename(redacted_path),
+                                        mime="application/pdf"
+                                    )
+                            else:
+                                st.error("No file processed. Please try again.")
+                        else:
+                            # If no sections were confirmed, inform the user
+                            st.warning("No document has been confirmed for redaction.")
 
     # Option to clear all processed data and temporary files
     if st.session_state.processed_docs:
@@ -247,10 +282,5 @@ def main():
             st.session_state['uploader_key'] = str(uuid.uuid4())
             st.experimental_rerun()
             
-        # Added new "Apply to Document" button which currently does nothing.
-        if st.button(t["apply"]):
-            # Currently does nothing
-            pass
-
 if __name__ == "__main__":
-    main() 
+    main()
