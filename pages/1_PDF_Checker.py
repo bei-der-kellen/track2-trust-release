@@ -101,7 +101,7 @@ def main():
     # Update the UI elements with translated text
     model_choice = st.radio(
         t["model_choice"],
-        options=["Albert", "Azure Open AI"],
+        options=["Albert", "Azure Open AI","Portal"],
         help=t["model_help"]
     )
 
@@ -122,6 +122,9 @@ def main():
         # Conditionally instantiate the AI processor based on selection
         if model_choice == "Azure Open AI":
             from utils.azure_ai import AzureAIProcessor
+            ai_processor = AzureAIProcessor()
+        elif model_choice == "Portal":
+            from utils.portal_ai import PortalAIProcessor
             ai_processor = AzureAIProcessor()
         else:
             from utils.albert_ai import AlbertAIProcessor
