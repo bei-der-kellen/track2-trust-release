@@ -4,23 +4,29 @@ import os
 
 class PortalAIProcessor:
     def __init__(self):
-        # Load the Portal API endpoint and key from environment variables (.env)
-        self.host = os.getenv("PORTAL_API_HOST")
-        self.port = os.getenv("PORTAL_API_PORT")
-        self.api_key = os.getenv("PORTAL_API_API_KEY")
-        self.use_ssl = os.getenv("PORTAL_API_USE_SSL")
-        self.model_identifier = os.getenv("PORTAL_API_MODEL_IDENTIFIER")
 
-    async def get_completion(self, prompt):
+        self.chat_model = UbitecAiPortalSdkChat(
+            portal_api_host=os.getenv("PORTAL_API_HOST"),
+            portal_api_port=os.getenv("PORTAL_API_PORT"),
+            portal_api_sdk_apikey=os.getenv("PORTAL_API_API_KEY"),
+            portal_api_use_ssl=os.getenv("PORTAL_API_USE_SSL"),
+            model=os.getenv("PORTAL_API_MODEL_IDENTIFIER"),
+            model_kwargs={
+               "temperature": 0
+            },
+            streaming=False, # streaming should probably be False within ProMoAI
+    )
+
+    def get_completion(self, prompt):
         system_message = "Du bist ein Assistent, welcher auf Deutsch antwortet."
         messages = [
             SystemMessage(content=system_message),
             HumanMessage(content=prompt)
         ]
-        response = await self.chat_model.ainvoke(messages)
+        response = self.chat_model.invoke(messages)
         return response.content
 
-    async def analyze_text(self, text):
+    def analyze_text(self, text):
         """
         Analyze the provided text for sensitive information.
         This method wraps `get_completion` so it has the same interface as AzureAIProcessor.
@@ -46,4 +52,4 @@ class PortalAIProcessor:
         Just give back the JSON and nothing else. Don't add any comments or explanations. Don't say "Here is the JSON" or anything like that.
         Text to analyze:
         """ + text
-        return await self.get_completion(prompt) 
+        return self.get_completion(prompt) 

@@ -125,7 +125,7 @@ def main():
             ai_processor = AzureAIProcessor()
         elif model_choice == "Portal":
             from utils.portal_ai import PortalAIProcessor
-            ai_processor = AzureAIProcessor()
+            ai_processor = PortalAIProcessor()
         else:
             from utils.albert_ai import AlbertAIProcessor
             ai_processor = AlbertAIProcessor()
